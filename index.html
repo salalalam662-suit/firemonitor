@@ -1,2 +1,68 @@
-<h1>My Fire Monitor Website</h1>
-<p>ESP32 Data Will Show Here</p>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fire Monitor</title>
+
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:#f5f5f5;
+padding-top:50px;
+}
+.box{
+background:white;
+width:300px;
+margin:auto;
+padding:30px;
+border-radius:15px;
+box-shadow:0 0 10px gray;
+}
+h1{color:red;}
+h2{margin:20px;}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h1>🔥 Fire Monitor</h1>
+
+<h2>🌡 Temperature: <span id="temp">Loading...</span> °C</h2>
+
+<h2>💧 Humidity: <span id="hum">Loading...</span> %</h2>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD8znktTPILIsWp1U7BS3rRJcH_TrEndAA",
+  authDomain: "firemonitor-c3347.firebaseapp.com",
+  databaseURL: "https://firemonitor-c3347-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "firemonitor-c3347",
+  storageBucket: "firemonitor-c3347.firebasestorage.app",
+  messagingSenderId: "946252474165",
+  appId: "1:946252474165:web:0b5b4419070ed8d4a94e7c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+onValue(ref(db, "/Sensor/Temperature"), (snapshot)=>{
+document.getElementById("temp").innerText = snapshot.val();
+});
+
+onValue(ref(db, "/Sensor/Humidity"), (snapshot)=>{
+document.getElementById("hum").innerText = snapshot.val();
+});
+
+</script>
+
+</body>
+</html>
